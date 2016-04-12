@@ -20,7 +20,7 @@ class ReceiveController < ApplicationController
 
       next unless subdomain
       
-      uri = URI.parse("https://#{subdomain}.#{ENV["RECEIVE_DOMAIN"]}")
+      uri = URI.parse("https://#{ENV["RECEIVE_USER"]}:#{ENV["RECEIVE_PASSWORD"]}@#{subdomain}.#{ENV["RECEIVE_DOMAIN"]}")
       Net::HTTP.post_form(uri, event)
 
     end
