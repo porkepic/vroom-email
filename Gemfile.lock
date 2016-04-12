@@ -63,6 +63,7 @@ GEM
     mime-types-data (3.2016.0221)
     mini_portile2 (2.0.0)
     minitest (5.8.4)
+    multi_json (1.11.2)
     nio4r (1.2.1)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
@@ -101,6 +102,8 @@ GEM
     rb-fsevent (0.9.7)
     rb-inotify (0.9.7)
       ffi (>= 0.5.0)
+    rollbar (2.9.1)
+      multi_json
     spring (1.7.1)
     spring-watcher-listen (2.0.0)
       listen (>= 2.7, < 4.0)
@@ -129,6 +132,7 @@ DEPENDENCIES
   listen (~> 3.0.5)
   puma
   rails (>= 5.0.0.beta3, < 5.1)
+  rollbar
   spring
   spring-watcher-listen (~> 2.0.0)
   tzinfo-data

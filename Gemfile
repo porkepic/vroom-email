@@ -6,6 +6,7 @@ gem 'rails', '>= 5.0.0.beta3', '< 5.1'
 
 # Use Puma as the app server
 gem 'puma'
+gem 'rollbar'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
