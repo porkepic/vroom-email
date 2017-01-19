@@ -38,7 +38,7 @@ class ReceiveController < ApplicationController
   end
 
   def delivery
-    postmark("delivery")
+    postmark("delivered")
     render json: {}
   end
 
