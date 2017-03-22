@@ -53,10 +53,10 @@ class ReceiveController < ApplicationController
     json = JSON.parse raw_json
     logger = Rails.logger
 
-    return unless json["Tag"]
+    return if !json["Tag"] || json["Tag"] == ""
     tag = nil
     begin
-      tag = JSON.parse json["Tag"]
+      tag = JSON.parse json["Tag"].gsub(/\s|\\t/, "")
     rescue => e
       Rollbar.error(e)
       return
@@ -64,7 +64,6 @@ class ReceiveController < ApplicationController
 
     subdomain = tag["subdomain"]
     tag["event"] = event
-    tag["object"] = tag["object"].gsub(/\s|\\t/, "") if tag["object"]
 
     logger.info "[#{subdomain}] : receive '#{tag["event"]}' with '#{tag["object"]}'"
 
