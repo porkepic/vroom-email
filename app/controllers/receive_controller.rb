@@ -62,7 +62,7 @@ class ReceiveController < ApplicationController
 
     subdomain = tag["subdomain"]
     tag["event"] = event
-    tag["object"] = tag["object"].gsub(/\s/, "") if tag["object"]
+    tag["object"] = tag["object"].gsub(/\s|\\t/, "") if tag["object"]
 
     logger.info "[#{subdomain}] : receive '#{tag["event"]}' with '#{tag["object"]}'"
 
