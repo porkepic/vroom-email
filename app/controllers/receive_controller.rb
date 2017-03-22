@@ -1,6 +1,7 @@
 require "net/http"
 require 'net/https'
 require "uri"
+require "rollbar"
 
 class ReceiveController < ApplicationController
   include ActionController::HttpAuthentication::Basic::ControllerMethods
@@ -57,6 +58,7 @@ class ReceiveController < ApplicationController
     begin
       tag = JSON.parse json["Tag"]
     rescue => e
+      Rollbar.error(e)
       return
     end
 
