@@ -76,17 +76,16 @@ class ReceiveController < ApplicationController
     begin
       matcher = /([^\.]*)\.inc\.construction/
       tenant = nil
-      case subdomain
-      when subdomain.end_with?( "local.host")
+      if subdomain.end_with?( "local.host")
         matcher = /([^\.]*)\.local\.host/
         queue = "dev_default"
-      # when subdomain == "fca.inc.construction"
+      # elsif subdomain == "fca.inc.construction"
       #   queue = "fca_default"
       #   tenant = "public"
-      # when subdomain == "durotoit.inc.construction"
+      # elsif subdomain == "durotoit.inc.construction"
       #   queue = "durotoit_default"
       #   tenant = "public"
-      # when subdomain.end_with?( ".inc.services")
+      # elsif subdomain.end_with?( ".inc.services")
       #   matcher = /([^\.]*)\.inc\.services/
       #   queue = "ccube_staging_default"
       # else
@@ -98,7 +97,7 @@ class ReceiveController < ApplicationController
       if !tenant
         tenant = subdomain.match( matcher )
       end
-      logger.info "#{queue} - #{tenant ? tenant[1] : "nil"} : receive '#{tag["event"]}' with '#{tag["object"]}'"
+      logger.info "#{subdomain} #{queue} - #{tenant ? tenant[1] : "nil"} : receive '#{tag["event"]}' with '#{tag["object"]}'"
 
       if tenant && queue
 
