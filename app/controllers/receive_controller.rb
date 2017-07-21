@@ -75,25 +75,25 @@ class ReceiveController < ApplicationController
 
     begin
       matcher = /([^\.]*)\.inc.construction/
-      queue = case subdomain
+      case subdomain
       when subdomain.end_with?( ".local.host")
         matcher = /([^\.]*)\.local.host/
-        "dev_default"
+        queue = "dev_default"
       # when subdomain == "fca.inc.construction"
-      #   "fca_default"
+      #   queue = "fca_default"
       # when subdomain == "durotoit.inc.construction"
-      #   "durotoit_default"
+      #   queue = "durotoit_default"
       # when subdomain.end_with?( ".inc.services")
       #   matcher = /([^\.]*)\.inc.services/
-      #   "ccube_staging_default"
+      #   queue = "ccube_staging_default"
       # else
-      #   "ccube_prod_default"
+      #   queue = "ccube_prod_default"
       else
         nil
       end
 
       tenant = subdomain.match( matcher )
-      logger.info "#{queue} - #{tenant} : receive '#{tag["event"]}' with '#{tag["object"]}'"
+      logger.info "#{queue} - #{tenant ? tenant[1] : "nil"} : receive '#{tag["event"]}' with '#{tag["object"]}'"
 
       if tenant && queue
         Shoryuken::Client.queues(queue).send_message({
