@@ -74,37 +74,38 @@ class ReceiveController < ApplicationController
     return unless subdomain
 
     begin
-      matcher = /([^\.]*)\.inc.construction/
+      matcher = /([^\.]*)\.inc\.construction/
+      tenant = nil
       case subdomain
-      when subdomain.end_with?( ".local.host")
-        matcher = /([^\.]*)\.local.host/
+      when subdomain.end_with?( "local.host")
+        matcher = /([^\.]*)\.local\.host/
         queue = "dev_default"
       # when subdomain == "fca.inc.construction"
       #   queue = "fca_default"
+      #   tenant = "public"
       # when subdomain == "durotoit.inc.construction"
       #   queue = "durotoit_default"
+      #   tenant = "public"
       # when subdomain.end_with?( ".inc.services")
-      #   matcher = /([^\.]*)\.inc.services/
+      #   matcher = /([^\.]*)\.inc\.services/
       #   queue = "ccube_staging_default"
       # else
       #   queue = "ccube_prod_default"
       else
-        nil
+        queue = nil
       end
 
-      tenant = subdomain.match( matcher )
+      if !tenant
+        tenant = subdomain.match( matcher )
+      end
       logger.info "#{queue} - #{tenant ? tenant[1] : "nil"} : receive '#{tag["event"]}' with '#{tag["object"]}'"
 
       if tenant && queue
-        Shoryuken::Client.queues(queue).send_message({
-          message_body: tag,
-          message_attributes: {
-            tenant: {
-              string_value: tenant[1],
-              data_type: "String"
-            }
-          }
-        })
+
+        tag["tenant"] = tenant
+
+        EmailEventJob.set(queue: queue).perform_later(tag)
+
       end
     rescue => e
       Rollbar.error(e)
