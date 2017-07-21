@@ -103,7 +103,7 @@ class ReceiveController < ApplicationController
 
         tag["tenant"] = tenant[1]
         # avoid improper loading of gid
-        tag]"object"] = "nogid-#{tag["object"]}"
+        tag["object"] = "nogid-#{tag["object"]}"
 
         EmailEventJob.set(queue: queue).perform_later(tag)
 
