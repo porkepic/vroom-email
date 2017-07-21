@@ -101,9 +101,11 @@ class ReceiveController < ApplicationController
 
       if tenant && queue
 
-        tag["tenant"] = tenant
-
-        EmailEventJob.set(queue: queue).perform_later(tag)
+        EmailEventJob.set(queue: queue).perform_later({
+          "event" => tag["event"],
+          "object" => tag["object"],
+          "tenant" => tenant
+        })
 
       end
     rescue => e
