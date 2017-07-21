@@ -132,7 +132,7 @@ class ReceiveController < ApplicationController
 
     logger.info "[#{subdomain}] : receive '#{tag["event"]}' with '#{tag["object"]}'"
 
-    return unless subdomain
+    return if !subdomain || subdomain.end_with?("local.host")
 
     uri = URI.parse("https://#{ENV["RECEIVE_USER"]}:#{ENV["RECEIVE_PASSWORD"]}@#{subdomain}/emails")
     Net::HTTP.post_form(uri, tag)
