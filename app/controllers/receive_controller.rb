@@ -104,7 +104,7 @@ class ReceiveController < ApplicationController
         EmailEventJob.set(queue: queue).perform_later({
           "event" => tag["event"],
           "object" => tag["object"],
-          "tenant" => tenant
+          "tenant" => tenant[1]
         })
 
       end
