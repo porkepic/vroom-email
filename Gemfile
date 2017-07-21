@@ -8,6 +8,7 @@ gem 'rails', '~> 5.1.0'
 gem 'puma'
 gem 'rack-timeout'
 gem 'rollbar'
+gem 'shoryuken'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
