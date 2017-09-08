@@ -81,10 +81,10 @@ class ReceiveController < ApplicationController
         queue = "dev_default"
       elsif subdomain == "fca.inc.construction"
         queue = "fca_default"
-        tenant = "public"
+        tenant = ["public"]
       elsif subdomain == "durotoit.inc.construction"
         queue = "durotoit_default"
-        tenant = "public"
+        tenant = ["public"]
       elsif subdomain.end_with?( ".inc.services")
         matcher = /([^\.]*)\.inc\.services/
         queue = "ccube_staging_default"
