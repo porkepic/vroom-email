@@ -90,8 +90,6 @@ class ReceiveController < ApplicationController
         queue = "ccube_staging_default"
       else
         queue = "ccube_prod_default"
-      else
-        queue = nil
       end
 
       if !tenant
