@@ -34,21 +34,21 @@ class ReceiveController < ApplicationController
   end
 
   def bounce
-    # postmark("bounce")
+    postmark("bounce")
     enqueue("bounce")
 
     render json: {}
   end
 
   def delivery
-    # postmark("delivered")
+    postmark("delivered")
     enqueue("delivered")
 
     render json: {}
   end
 
   def open
-    # postmark("open")
+    postmark("open")
     enqueue("open")
 
     render json: {}
@@ -79,17 +79,17 @@ class ReceiveController < ApplicationController
       if subdomain.end_with?( "local.host")
         matcher = /([^\.]*)\.local\.host/
         queue = "dev_default"
-      elsif subdomain == "fca.inc.construction"
-        queue = "fca_default"
-        tenant = "public"
-      elsif subdomain == "durotoit.inc.construction"
-        queue = "durotoit_default"
-        tenant = "public"
+      # elsif subdomain == "fca.inc.construction"
+      #   queue = "fca_default"
+      #   tenant = "public"
+      # elsif subdomain == "durotoit.inc.construction"
+      #   queue = "durotoit_default"
+      #   tenant = "public"
       elsif subdomain.end_with?( ".inc.services")
         matcher = /([^\.]*)\.inc\.services/
         queue = "ccube_staging_default"
-      else
-        queue = "ccube_prod_default"
+      # else
+      #   queue = "ccube_prod_default"
       else
         queue = nil
       end
