@@ -2,6 +2,7 @@ require "net/http"
 require 'net/https'
 require "uri"
 require "rollbar"
+require 'base64'
 
 class ReceiveController < ApplicationController
   include ActionController::HttpAuthentication::Basic::ControllerMethods
@@ -59,10 +60,16 @@ class ReceiveController < ApplicationController
     json = JSON.parse raw_json
     logger = Rails.logger
 
-    return if !json["Tag"] || json["Tag"] == ""
+    json_tag = json["Tag"]
+    return if !json_tag || json_tag == ""
     tag = nil
+
+    if json_tag[0] != "{" && json_tag[-1] != "}"
+      json_tag = Base64.decode64(json_tag)
+    end
+
     begin
-      tag = JSON.parse json["Tag"].gsub(/\s|\\t/, "")
+      tag = JSON.parse json_tag.gsub(/\s|\\t/, "")
     rescue => e
       Rollbar.error(e)
       return
